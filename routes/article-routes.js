@@ -10,6 +10,6 @@ const router = express.Router();
 
 router.get("/", getArticleItems);
 // router.get("/:articles", getArticleCollection);
-router.get("/articles/:articleId", getArticleItemById);
+router.get("/:articleId", getArticleItemById);
 
 module.exports = router;
