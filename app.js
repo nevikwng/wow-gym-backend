@@ -5,12 +5,9 @@ const coursesRoutes = require("./routes/courses-routes");
 const categoryRoutes = require("./routes/category-routes")
 const employeeRoutes =require("./routes/employee-routes")
 const customerRoutes = require("./routes/customer-routes");
-<<<<<<< HEAD
 const OrderRoutes = require("./routes/order-routes");
-=======
 const memberRoutes = require("./routes/member-routes");
 const articleRoutes = require("./routes/article-routes");
->>>>>>> fd605e3925e5576755d5bbf7bf5896822c89b38a
 
 const app = express();
 const bodyParser = express.urlencoded({ extended: false });
