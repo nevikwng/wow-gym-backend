@@ -87,7 +87,7 @@ router.get('/api/OrderList', async (req, res) => {
 // })
 router.post('/api/del/:orderId', (req, res) => {
     const sql = "UPDATE `orders` SET `OrderStatus` = '2' WHERE `orders`.`orderId` = ?";
-    console.log(req.body)
+    // console.log(req.body)
     db.query(sql, [req.params.orderId])
 
 })
