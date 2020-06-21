@@ -6,16 +6,7 @@ const getArticleItems = async (req, res) => {
   res.json(rows);
 };
 
-// const getArticleCollection = async (req, res) => {
-//   try {
-//     const Id = req.params.collection;
-//     const [rows] = await db.query("SELECT * FROM article");
-//     if (!rows) return next("Can't find article item", 404);
-//     res.json({ collection: rows });
-//   } catch (err) {
-//     return next(new HttpError("Can't find article item of collection", 404));
-//   }
-// };
+
 
 const getArticleItemById = async (req, res) => {
   try {
@@ -30,5 +21,6 @@ const getArticleItemById = async (req, res) => {
     return next(new HttpError("Can't find article item", 404));
   }
 };
+
 
 module.exports = { getArticleItems, getArticleItemById };
