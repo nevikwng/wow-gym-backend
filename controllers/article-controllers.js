@@ -5,6 +5,7 @@ const getArticleItems = async (req, res) => {
   const [rows] = await db.query("SELECT * FROM article");
   res.json(rows);
 };
+//123
 
 
 
