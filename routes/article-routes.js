@@ -2,14 +2,14 @@ const express = require("express");
 
 const {
   getArticleItems,
-  // getArticleCollection,
+  getArticleCommentById,
   getArticleItemById,
 } = require("../controllers/article-controllers");
 
 const router = express.Router();
 
 router.get("/", getArticleItems);
-// router.get("/:articles", getArticleCollection);
+router.get("/:articleId", getArticleCommentById);
 router.get("/:articleId", getArticleItemById);
 
 module.exports = router;
