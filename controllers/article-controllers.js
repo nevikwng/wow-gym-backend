@@ -21,18 +21,6 @@ const getArticleItemById = async (req, res) => {
     return next(new HttpError("Can't find article item", 404));
   }
 };
-const getArticleCommentById = async (req, res) => {
-  try {
-    const articleId = req.params.articleId;
-    // console.log(articleId);
-    const [row] = await db.query(
-      `SELECT * FROM article_comments WHERE articleId=${articleId}`
-    );
-    if (!row) return next("Can't find article item", 404);
-    res.json(row);
-  } catch (err) {
-    return next(new HttpError("Can't find article item", 404));
-  }
-};
 
-module.exports = { getArticleItems, getArticleItemById, getArticleCommentById };
+
+module.exports = { getArticleItems, getArticleItemById };
