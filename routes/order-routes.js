@@ -181,6 +181,32 @@ router.post('/api/orders', (req, res) => {
 })
 
 
+router.get('/api/OrderCompeleted/', async (req, res) => {
+    const sql = `SELECT orderId,created_at,orders.Total,PayMentMethod,OrderStatus,checkoutpage.UserName,checkoutpage.City,
+    checkoutpage.district,checkoutpage.mobile,checkoutpage.address,checkoutpage.email,checkoutpage.recipientUserName,checkoutpage.recipientCity,
+    checkoutpage.recipientDistrict,checkoutpage.recipientMobile,checkoutpage.recipientAddress,checkoutpage.recipientEmail, orderitemlist.ItemName, 
+    orderitemlist.ItemNamePrice, orderitemlist.itemQuantity, orderitemlist.itemType FROM orders INNER JOIN checkoutpage INNER JOIN orderitemlist WHERE checkoutpage.MemberId = orderitemlist.MemberId ORDER BY orderId DESC LIMIT 1`
+    db.query(sql, [req.params.orderId])
+        .then(([r]) => res.json(r))
+})
+
+
+
+// router.get('/api/OrderCompeleted/:orderId', async (req, res) => {
+//     console.log(res)
+//     const output = {
+//         success: false
+//     }
+//     const sql = "SELECT * FROM`orders`  WHERE `orders`.`orderId` = ?"
+//     db.query(sql, [req.params.orderId])
+//         .then(([r]) => {
+//             output.results = r;
+//             if (r.affectedRows && r.insertId) {
+//                 output.success = true;
+//             }
+//             res.json(output);
+//         })
+// })
 
 
 
