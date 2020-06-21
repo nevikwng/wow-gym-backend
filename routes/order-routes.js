@@ -26,7 +26,8 @@ const GetApi = async (req) => {
     if (!output.page) {
         return output;
     }
-    const sql = `SELECT orderId,created_at,orders.Total,PayMentMethod,OrderStatus,checkoutpage.UserName,checkoutpage.City,checkoutpage.district,checkoutpage.mobile,checkoutpage.address,checkoutpage.email,checkoutpage.recipientUserName,checkoutpage.recipientCity,checkoutpage.recipientDistrict,checkoutpage.recipientMobile,checkoutpage.recipientAddress,checkoutpage.recipientEmail, orderitemlist.ItemName, orderitemlist.ItemNamePrice, orderitemlist.itemQuantity, orderitemlist.itemType FROM orders INNER JOIN checkoutpage INNER JOIN orderitemlist WHERE checkoutpage.MemberId = orderitemlist.MemberId ORDER BY orderId DESC LIMIT ${(page - 1) * perPage}, ${perPage}`
+    const sql = "SELECT * FROM `orderitemlist` INNER JOIN `orders` WHERE `orders`.`created_at` = `orderitemlist`.`create_time`"
+
     const [r2] = await db.query(sql);
     if (r2) output.rows = r2;
     for (let i of r2) {
@@ -190,7 +191,11 @@ router.get('/api/OrderCompeleted/', async (req, res) => {
         .then(([r]) => res.json(r))
 })
 
-
+router.get('/api/address', async (req, res) => {
+    const sql = "SELECT `orders`.`orderId`,`checkoutpage`.`UserName`,`checkoutpage`.`City`,`checkoutpage`.`district`,`checkoutpage`.`address`,`checkoutpage`.`recipientCity`,`checkoutpage`.`recipientDistrict`,`checkoutpage`.`recipientAddress`,`checkoutpage`.`mobile`,`checkoutpage`.`recipientMobile`,`checkoutpage`.`email`FROM  `orders` INNER JOIN `checkoutpage` WHERE `checkoutpage`.`create_time` = `orders`.`created_at`"
+    db.query(sql, [req.params.orderId])
+        .then(([r]) => res.json(r))
+})
 
 // router.get('/api/OrderCompeleted/:orderId', async (req, res) => {
 //     console.log(res)
