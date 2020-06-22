@@ -23,4 +23,29 @@ const getArticleItemById = async (req, res) => {
 };
 
 
-module.exports = { getArticleItems, getArticleItemById };
+const postArticleAdd = async (req, res) => {
+  const output = {
+    success: false,
+  };
+  console.log(req.body);
+  const sql =
+    "INSERT INTO `article_comments`(`articleId`, `memberId`, `memberName`, `content`, `memberImg`) VALUES (?,?,?,?,?) ";
+  db.query(sql, [
+    req.body.data.articleId,
+    req.body.data.memberId,
+    req.body.data.memberName,
+    req.body.data.content,
+    req.body.data.memberImg,
+  ]).then(([r]) => {
+    output.results = r;
+    if (r.affectedRows && r.insertId) {
+      output.success = true;
+    }
+    res.json(output);
+  });
+  //res.json(req.body);
+  
+};
+
+
+module.exports = { getArticleItems, getArticleItemById, postArticleAdd };
