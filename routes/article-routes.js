@@ -3,8 +3,8 @@ const express = require("express");
 const {
   getArticleItems,
   getArticleItemById,
-  postArticleAddComments,
   getComment,
+  postArticleAddComments,
   postArticleAdd,
 } = require("../controllers/article-controllers");
 
@@ -15,6 +15,6 @@ router.get("/:articleId", getArticleItemById);
 router.get("/api/:articleId", getComment);
 
 router.post("/:articleId", postArticleAddComments);
-router.post("/:articleAdd", postArticleAdd);
+router.post("/:articlesAdd", postArticleAdd);
 
 module.exports = router;

@@ -58,7 +58,6 @@ const postArticleAddComments = async (req, res) => {
   //res.json(req.body);
 };
 
-
 const postArticleAdd = async (req, res) => {
   const output = {
     success: false,
@@ -89,7 +88,7 @@ const postArticleAdd = async (req, res) => {
 module.exports = {
   getArticleItems,
   getArticleItemById,
-  postArticleAddComments,
   getComment,
+  postArticleAddComments,
   postArticleAdd,
 };
