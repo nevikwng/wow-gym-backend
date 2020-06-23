@@ -1,5 +1,4 @@
 const db = require("../mySql-connect");
-const moment = require("moment-timezone");
 const HttpError = require("../models/http-error");
 
 //教練
@@ -13,6 +12,7 @@ const getemployeelogin = async (req, res) => {
   const [rows] = await db.query(
     "SELECT `Eaccount`,`Epwd`,`Eid` FROM `employee`"
   );
+
   res.json(rows);
 };
 
@@ -68,17 +68,17 @@ const updatecourses = async (req, res) => {
 };
 
 //刪除課程
-const deletecourses = async(req, res)=>{
-  let referer = req.get('/courses/:courseId'); // 從哪裡來
+const deletecourses = async (req, res) => {
+  let referer = req.get("/courses/:courseId"); // 從哪裡來
   const sql = "DELETE FROM `courses` WHERE courseId=?";
-  db.query(sql, [req.params.courseId])
+  db.query(sql, [req.params.courseId]);
   //  console.log(req.params.courseId)
-          if(referer){
-              res.redirect(referer)
-          } else {
-              res.send('ok')
-          }
-}
+  if (referer) {
+    res.redirect(referer);
+  } else {
+    res.send("ok");
+  }
+};
 
 //單一教練的課程
 const getemployeecenterID = async (req, res) => {
@@ -111,8 +111,8 @@ const getemployeeID = async (req, res) => {
 //單一課程
 const getcoursesID = async (req, res) => {
   try {
+    const newRow = {};
     const courseId = req.params.courseId;
-    // console.log(courseId);
     const [row] = await db.query(
       `SELECT * FROM courses WHERE courseId=${courseId}`
     );
