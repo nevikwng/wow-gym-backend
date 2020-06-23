@@ -6,6 +6,7 @@ const categoryRoutes = require("./routes/category-routes")
 const employeeRoutes =require("./routes/employee-routes")
 const customerRoutes = require("./routes/customer-routes");
 const memberRoutes = require("./routes/member-routes");
+const articleRoutes = require("./routes/article-routes");
 
 
 const app = express();
@@ -32,6 +33,7 @@ app.use("/api/category", categoryRoutes);
 app.use("/api", employeeRoutes);
 app.use("/api", customerRoutes);
 app.use("/api", memberRoutes);
+app.use("/api/articles", articleRoutes);
 
 // Error handler
 app.use((req, res, next) => {
