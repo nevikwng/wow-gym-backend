@@ -5,6 +5,9 @@ const coursesRoutes = require("./routes/courses-routes");
 const categoryRoutes = require("./routes/category-routes")
 const employeeRoutes =require("./routes/employee-routes")
 const customerRoutes = require("./routes/customer-routes");
+const OrderRoutes = require("./routes/orders-routes");
+const memberRoutes = require("./routes/member-routes");
+const articleRoutes = require("./routes/article-routes");
 
 const app = express();
 const bodyParser = express.urlencoded({ extended: false });
@@ -29,6 +32,9 @@ app.use("/api/courses", coursesRoutes);
 app.use("/api/category", categoryRoutes);
 app.use("/api", employeeRoutes);
 app.use("/api", customerRoutes);
+app.use("/Orders", OrderRoutes);
+app.use("/api", memberRoutes);
+app.use("/api/articles", articleRoutes);
 
 // Error handler
 app.use((req, res, next) => {

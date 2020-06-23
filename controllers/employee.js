@@ -1,6 +1,7 @@
 const db = require("../mySql-connect");
 const moment = require("moment-timezone");
 const HttpError = require("../models/http-error");
+const moment = require('moment-timezone');
 
 //教練
 const getemployee = async (req, res) => {
@@ -13,6 +14,7 @@ const getemployeelogin = async (req, res) => {
   const [rows] = await db.query(
     "SELECT `Eaccount`,`Epwd`,`Eid` FROM `employee`"
   );
+
   res.json(rows);
 };
 
@@ -78,6 +80,7 @@ const deletecourses = async(req, res)=>{
           } else {
               res.send('ok')
           }
+
 }
 
 //單一教練的課程
@@ -111,13 +114,14 @@ const getemployeeID = async (req, res) => {
 //單一課程
 const getcoursesID = async (req, res) => {
   try {
+    const newRow = {}
     const courseId = req.params.courseId;
-    // console.log(courseId);
     const [row] = await db.query(
       `SELECT * FROM courses WHERE courseId=${courseId}`
     );
     if (!row) return next("Can't find shop item", 404);
     res.json(row);
+
   } catch (err) {
     return next(new HttpError("Can't find shop item", 404));
   }

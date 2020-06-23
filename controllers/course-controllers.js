@@ -34,13 +34,22 @@ const getCoursesCategory = async (req, res) => {
 
 const getCoursesID = async (req, res) => {
     try {
+      const newRow = {}
       const courseId = req.params.courseId;
       console.log(courseId);
-      const [row] = await db.query(`SELECT * FROM courses WHERE courseId=${courseId}`);
-      if (!row) return next("Can't find course item", 404);
-      res.json({ courseItem: row });
+      const [rows] = await db.query(`SELECT * FROM courses WHERE courseId=${courseId}`);
+      if (rows) newRow.coursesRow = rows
+      console.log(rows)
+      for (i of rows) {
+        
+        const fm = 'ddd MM DD HH:mm'
+        i.courseTime = moment(i.courseTime).format(fm)
+        // console.log(i.courseTime)
+      }
+      res.json({ courseItem: newRow });
     } catch (err) {
       return next(new HttpError("Can't find course item", 404));
+
     }
   };
   
