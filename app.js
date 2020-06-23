@@ -5,7 +5,7 @@ const coursesRoutes = require("./routes/courses-routes");
 const categoryRoutes = require("./routes/category-routes")
 const employeeRoutes =require("./routes/employee-routes")
 const customerRoutes = require("./routes/customer-routes");
-const OrderRoutes = require("./routes/order-routes");
+const OrderRoutes = require("./routes/orders-routes");
 const memberRoutes = require("./routes/member-routes");
 const articleRoutes = require("./routes/article-routes");
 

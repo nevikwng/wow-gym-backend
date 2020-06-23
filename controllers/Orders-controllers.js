@@ -1,3 +1,4 @@
+
 const db = require("../mySql-connect");
 const HttpError = require("../models/http-error");
 const express = require("express");
@@ -37,11 +38,12 @@ const GetApi = async (req) => {
     return output;
 };
 
-router.get('/api/OrderListDeatail', async (req, res) => {
+const getapi = async (req, res) => {
     const output = await GetApi(req);
     res.json(output);
-    // console.log(output)
-})
+    console.log(output)
+}
+
 
 const GetDeatailApi = async (req) => {
     const perPage = 5;
@@ -75,23 +77,22 @@ const GetDeatailApi = async (req) => {
     return output;
 };
 
-router.get('/api/OrderList', async (req, res) => {
+
+const getOrderList = async (req, res) => {
     const output = await GetDeatailApi(req);
     res.json(output);
-    // console.log(output)
-})
-// router.post('/api/del/:orderId', (req, res) => {
-//     const sql = "DELETE FROM `orders` WHERE orderId=?";
-//     console.log(req)
-//     db.query(sql, [req.params.orderId])
+}
 
-// })
-router.post('/api/del/:orderId', (req, res) => {
+
+
+
+const UpdateOrderStatus = (req, res) => {
     const sql = "UPDATE `orders` SET `OrderStatus` = '2' WHERE `orders`.`orderId` = ?";
     // console.log(req.body)
     db.query(sql, [req.params.orderId])
+}
 
-})
+
 
 const Getcheckoutpage = async (req) => {
     const output = {
@@ -106,14 +107,15 @@ const Getcheckoutpage = async (req) => {
     }
     return output;
 };
-router.get('/api/addCheckOutPage', async (req, res) => {
+
+const addCheckOutPage = async (req, res) => {
     const output = await Getcheckoutpage(req);
     res.json(output);
     // console.log(output)
-})
+}
 
 
-router.get('/api/test', async (req, res) => {
+const test = async (req, res) => {
     console.log(res)
     const output = {
         success: false
@@ -127,10 +129,12 @@ router.get('/api/test', async (req, res) => {
             }
             res.json(output);
         })
-})
+
+}
 
 
-router.post('/api/addCheckOutPage', (req, res) => {
+
+const InsertCheckOutPage = (req, res) => {
     console.log('data' + req.body.data.Member)
     const output = {
         success: false
@@ -145,9 +149,10 @@ router.post('/api/addCheckOutPage', (req, res) => {
             res.json(output);
         })
     //res.json(req.body);
-})
+}
 
-router.post('/api/additem', (req, res) => {
+
+const additem = (req, res) => {
     // console.log('addit' + req.body.Total)
     const output = {
         success: false
@@ -174,46 +179,44 @@ router.post('/api/additem', (req, res) => {
             res.json(output);
         })
     //res.json(req.body);
-})
+}
 
-router.post('/api/orders', (req, res) => {
+
+const ordres = (req, res) => {
     const sql = "INSERT INTO `orders`(`Total`, `PayMentMethod`, `MemberId`,`OrderStatus`, `CustomerService`, `CancelStatus`) VALUES (?,?,?,2,2,2)"
     db.query(sql, [req.body.orders.Total, req.body.orders.pay, req.body.orders.Member])
-})
+}
 
 
-router.get('/api/OrderCompeleted/', async (req, res) => {
+const OrderCompeleted = async (req, res) => {
     const sql = `SELECT orderId,created_at,orders.Total,PayMentMethod,OrderStatus,checkoutpage.UserName,checkoutpage.City,
     checkoutpage.district,checkoutpage.mobile,checkoutpage.address,checkoutpage.email,checkoutpage.recipientUserName,checkoutpage.recipientCity,
     checkoutpage.recipientDistrict,checkoutpage.recipientMobile,checkoutpage.recipientAddress,checkoutpage.recipientEmail, orderitemlist.ItemName, 
     orderitemlist.ItemNamePrice, orderitemlist.itemQuantity, orderitemlist.itemType FROM orders INNER JOIN checkoutpage INNER JOIN orderitemlist WHERE checkoutpage.MemberId = orderitemlist.MemberId ORDER BY orderId DESC LIMIT 1`
     db.query(sql, [req.params.orderId])
         .then(([r]) => res.json(r))
-})
+}
 
-router.get('/api/address', async (req, res) => {
+
+const address = async (req, res) => {
     const sql = "SELECT `orders`.`orderId`,`checkoutpage`.`UserName`,`checkoutpage`.`City`,`checkoutpage`.`district`,`checkoutpage`.`address`,`checkoutpage`.`recipientCity`,`checkoutpage`.`recipientDistrict`,`checkoutpage`.`recipientAddress`,`checkoutpage`.`mobile`,`checkoutpage`.`recipientMobile`,`checkoutpage`.`email`FROM  `orders` INNER JOIN `checkoutpage` WHERE `checkoutpage`.`create_time` = `orders`.`created_at`"
     db.query(sql, [req.params.orderId])
         .then(([r]) => res.json(r))
-})
-
-// router.get('/api/OrderCompeleted/:orderId', async (req, res) => {
-//     console.log(res)
-//     const output = {
-//         success: false
-//     }
-//     const sql = "SELECT * FROM`orders`  WHERE `orders`.`orderId` = ?"
-//     db.query(sql, [req.params.orderId])
-//         .then(([r]) => {
-//             output.results = r;
-//             if (r.affectedRows && r.insertId) {
-//                 output.success = true;
-//             }
-//             res.json(output);
-//         })
-// })
+}
 
 
 
 
-module.exports = router;
+module.exports = {
+    getapi,
+    getOrderList,
+    UpdateOrderStatus,
+    addCheckOutPage,
+    test,
+    InsertCheckOutPage,
+    additem,
+    ordres,
+    OrderCompeleted,
+    address,
+
+};
