@@ -2,10 +2,11 @@ const db = require("../mySql-connect");
 const HttpError = require("../models/http-error");
 
 const getArticleItems = async (req, res) => {
-  const [rows] = await db.query("SELECT * FROM article ");
+  const [rows] = await db.query(
+    "SELECT * FROM article  ORDER BY articleId DESC"
+  );
   res.json(rows);
 };
-//123
 
 const getArticleItemById = async (req, res) => {
   try {
@@ -26,7 +27,21 @@ const getComment = async (req, res) => {
     const articleId = req.params.articleId;
     // console.log(articleId);
     const [row] = await db.query(
-      `SELECT * FROM  article INNER JOIN article_comments ON article_comments.articleId = article.articleId WHERE article.articleId=${articleId}`
+      `SELECT * FROM  article INNER JOIN articlecomments ON articlecomments.articleId = article.articleId WHERE article.articleId=${articleId}`
+    );
+    if (!row) return next("Can't find article item", 404);
+    res.json(row);
+  } catch (err) {
+    return next(new HttpError("Can't find article item", 404));
+  }
+};
+
+const getArticleItemByMemberId = async (req, res) => {
+  try {
+    const memberId = req.params.memberId;
+    // console.log(articleId);
+    const [row] = await db.query(
+      `SELECT * FROM article   WHERE article.memberId=${memberId}`
     );
     if (!row) return next("Can't find article item", 404);
     res.json(row);
@@ -39,9 +54,9 @@ const postArticleAddComments = async (req, res) => {
   const output = {
     success: false,
   };
-  console.log(req.body);
+  // console.log(req.body);
   const sql =
-    "INSERT INTO `article_comments`(`articleId`, `memberId`, `memberName`, `content`, `memberImg`) VALUES (?,?,?,?,?) ";
+    "INSERT INTO `articlecomments`(`articleId`, `memberId`, `memberName`, `content`, `memberImg`) VALUES (?,?,?,?,?) ";
   db.query(sql, [
     req.body.data.articleId,
     req.body.data.memberId,
@@ -64,7 +79,7 @@ const postArticleAdd = async (req, res) => {
   };
   console.log(req.body);
   const sql =
-    "INSERT INTO `article`(`memberId`, `memberName`, `articleTitle`, `categoryName`,`articleContent`,`tagName1`,`tagName2`, `articleImages`,`memberImg`) VALUES (?,?,?,?,?,?,?,?,?) ";
+    "INSERT INTO `article`(`memberId`, `memberName`, `articleTitle`, `categoryName`, `articleContent`,`tagName1`,`tagName2`,`articleImages`,`memberImg`) VALUES (?,?,?,?,?,?,?,?,?) ";
   db.query(sql, [
     req.body.data.memberId,
     req.body.data.memberName,
@@ -85,10 +100,35 @@ const postArticleAdd = async (req, res) => {
   //res.json(req.body);
 };
 
+const getArticleItemByIdDel = async (req, res, next) => {
+  console.log(req.params.articleId);
+  const output = {
+    success: false,
+  };
+
+  const articleId = req.params.articleId;
+  db.query(`DELETE FROM article WHERE  articleId =?`, [req.params.articleId]);
+
+  res.json(output);
+};
+
+const getArticleItemByIdUpdate = async (req, res) => {
+  console.log(req.body);
+  // console.log(req.params.articleId);
+  const output = {
+    success: false,
+  };
+
+ 
+};
+
 module.exports = {
   getArticleItems,
   getArticleItemById,
   getComment,
+  getArticleItemByMemberId,
   postArticleAddComments,
   postArticleAdd,
+  getArticleItemByIdDel,
+  getArticleItemByIdUpdate,
 };
