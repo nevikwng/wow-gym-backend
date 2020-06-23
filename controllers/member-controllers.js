@@ -40,19 +40,19 @@ const getMember = async (req, res) => {
 //     }
 // };
 
-const getMemberID = async (req, res) => {
+const getMemberId = async (req, res) => {
     try {
       const newRow = {}
       const memberId = req.params.memberId;
     //   console.log(memberId);
-      const [row] = await db.query(`SELECT * FROM member WHERE memberId=${memberId}`);
-      if (row) newRow.membersRow = row
+      const [rows] = await db.query(`SELECT * FROM member WHERE memberId=${memberId}`);
+      if (rows) newRow.membersRow = rows
       // console.log(row)
-      for (i of row) {
+      for (i of rows) {
   
         const fm = 'ddd MM DD HH:mm'
         i.courseTime = moment(i.courseTime).format(fm)
-        if (!row) return next("Can't find shop item", 404);
+        if (!rows) return next("Can't find shop item", 404);
         res.json({ memberItem: newRow });
       }
     } catch (err) {
@@ -60,7 +60,35 @@ const getMemberID = async (req, res) => {
     }
   };
   
+  const getMemberLogin = async (req, res) => {
+    
+    const newRow = {}
+    const [rows] = await db.query("SELECT `memberAccount`,`memberPwd`,`memberName`,`memberId`, `memberEmail`, `courseId`, `courseName`, `courseCategory`, `staffId`, `courseTime`, `courseHour` FROM `member`");
+    if (rows) newRow.memberRow = rows
+    // console.log(newRow.coursesRow)
+    for (i of rows) {
+
+        const fm = 'ddd MM DD HH:mm'
+        i.courseTime = moment(i.courseTime).format(fm)
+        // console.log(i.courseTime)
+    }
+    res.json(newRow);
+  }
+
+  const getMemberLoginId = async (req, res) => {
+    
+    const newRow = {}
+    const [rows] = await db.query(`SELECT * FROM member WHERE memberId=${memberId}`);
+    if (rows) newRow.memberRow = rows
+    // console.log(newRow.coursesRow)
+    for (i of rows) {
+
+        const fm = 'ddd MM DD HH:mm'
+        i.courseTime = moment(i.courseTime).format(fm)
+        // console.log(i.courseTime)
+    }
+    res.json({ memberRow: newRow });
+  }
 
 
-
-module.exports = { getMember, getMemberID };
+module.exports = { getMember, getMemberId, getMemberLogin, getMemberLoginId };
