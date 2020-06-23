@@ -3,24 +3,26 @@ const express = require("express");
 const {
   getArticleItems,
   getArticleItemById,
-  getComment,
+  getComments,
   getArticleItemByMemberId,
+  getArticleItemByArticleId,
   postArticleAddComments,
   postArticleAdd,
   getArticleItemByIdDel,
-  getArticleItemByIdUpdate,
+  postArticleItemByIdUpdate,
 } = require("../controllers/article-controllers");
 
 const router = express.Router();
 
 router.get("/", getArticleItems);
 router.get("/:articleId", getArticleItemById);
-router.get("/api/:articleId", getComment);
+router.get("/getComments/:articleId", getComments);
 router.get("/member/:memberId", getArticleItemByMemberId);
+router.get("/articleItem/:articleId", getArticleItemByArticleId);
 
-// router.post("/:articleId", postArticleAddComments);
-// router.post("/", postArticleAdd);
-router.post("/articlesUpdate", getArticleItemByIdUpdate);
+router.post("/postComments/:articleId", postArticleAddComments);
+router.post("/add", postArticleAdd);
+router.post("/articlesUpdate/:articleId", postArticleItemByIdUpdate);
 
 router.delete("/articlesEdit/:articleId", getArticleItemByIdDel);
 

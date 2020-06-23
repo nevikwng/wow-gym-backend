@@ -1,6 +1,7 @@
 const db = require("../mySql-connect");
 const HttpError = require("../models/http-error");
 
+//取得文章資料
 const getArticleItems = async (req, res) => {
   const [rows] = await db.query(
     "SELECT * FROM article  ORDER BY articleId DESC"
@@ -8,6 +9,7 @@ const getArticleItems = async (req, res) => {
   res.json(rows);
 };
 
+//文章詳細頁
 const getArticleItemById = async (req, res) => {
   try {
     const articleId = req.params.articleId;
@@ -22,7 +24,8 @@ const getArticleItemById = async (req, res) => {
   }
 };
 
-const getComment = async (req, res) => {
+//取得留言資料
+const getComments = async (req, res) => {
   try {
     const articleId = req.params.articleId;
     // console.log(articleId);
@@ -36,6 +39,7 @@ const getComment = async (req, res) => {
   }
 };
 
+//取得會員發表文章資料
 const getArticleItemByMemberId = async (req, res) => {
   try {
     const memberId = req.params.memberId;
@@ -50,6 +54,22 @@ const getArticleItemByMemberId = async (req, res) => {
   }
 };
 
+//取得會員發表文章個別項目資料
+const getArticleItemByArticleId = async (req, res) => {
+  try {
+    const articleId = req.params.articleId;
+    // console.log(articleId);
+    const [row] = await db.query(
+      `SELECT * FROM article   WHERE article.articleId=${articleId}`
+    );
+    if (!row) return next("Can't find article item", 404);
+    res.json(row);
+  } catch (err) {
+    return next(new HttpError("Can't find article item", 404));
+  }
+};
+
+//傳送留言
 const postArticleAddComments = async (req, res) => {
   const output = {
     success: false,
@@ -73,11 +93,12 @@ const postArticleAddComments = async (req, res) => {
   //res.json(req.body);
 };
 
+//新增文章
 const postArticleAdd = async (req, res) => {
   const output = {
     success: false,
   };
-  console.log(req.body);
+  // console.log(req.body);
   const sql =
     "INSERT INTO `article`(`memberId`, `memberName`, `articleTitle`, `categoryName`, `articleContent`,`tagName1`,`tagName2`,`articleImages`,`memberImg`) VALUES (?,?,?,?,?,?,?,?,?) ";
   db.query(sql, [
@@ -100,8 +121,9 @@ const postArticleAdd = async (req, res) => {
   //res.json(req.body);
 };
 
+//刪除文章
 const getArticleItemByIdDel = async (req, res, next) => {
-  console.log(req.params.articleId);
+  // console.log(req.params.articleId);
   const output = {
     success: false,
   };
@@ -112,25 +134,32 @@ const getArticleItemByIdDel = async (req, res, next) => {
   res.json(output);
 };
 
-const getArticleItemByIdUpdate = async (req, res, next) => {
-  console.log(req.body);
-  // console.log(req.params.articleId);
+//更新文章
+const postArticleItemByIdUpdate = async (req, res, next) => {
   const output = {
     success: false,
   };
-
-  db.query(`UPDATE article SET ? WHERE  articleId =?`, [req.body, 70]);
-
-  res.json(output);
+  const articleId = req.params.articleId
+  console.log(req.body);
+  const sql = `UPDATE article SET ? WHERE articleId = ?`;
+  db.query(sql, [req.body.data, articleId]).then(([r]) => {
+    output.results = r;
+    if (r.affectedRows && r.insertId) {
+      output.success = true;
+    }
+    res.json(output);
+  });
+  //res.json(req.body);
 };
 
 module.exports = {
   getArticleItems,
   getArticleItemById,
-  getComment,
+  getComments,
   getArticleItemByMemberId,
+  getArticleItemByArticleId,
   postArticleAddComments,
   postArticleAdd,
+  postArticleItemByIdUpdate,
   getArticleItemByIdDel,
-  getArticleItemByIdUpdate,
 };
