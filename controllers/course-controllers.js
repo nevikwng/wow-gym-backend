@@ -12,7 +12,6 @@ const getCourses = async (req, res) => {
     if (rows) newRow.coursesRow = rows
     // console.log(newRow.coursesRow)
     for (i of rows) {
-      
       const fm = 'ddd MM DD HH:mm'
       i.courseTime = moment(i.courseTime).format(fm)
       // console.log(i.courseTime)
