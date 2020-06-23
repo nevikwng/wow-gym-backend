@@ -1,7 +1,5 @@
 const db = require("../mySql-connect");
-const moment = require("moment-timezone");
 const HttpError = require("../models/http-error");
-const moment = require('moment-timezone');
 
 //教練
 const getemployee = async (req, res) => {
@@ -70,18 +68,17 @@ const updatecourses = async (req, res) => {
 };
 
 //刪除課程
-const deletecourses = async(req, res)=>{
-  let referer = req.get('/courses/:courseId'); // 從哪裡來
+const deletecourses = async (req, res) => {
+  let referer = req.get("/courses/:courseId"); // 從哪裡來
   const sql = "DELETE FROM `courses` WHERE courseId=?";
-  db.query(sql, [req.params.courseId])
+  db.query(sql, [req.params.courseId]);
   //  console.log(req.params.courseId)
-          if(referer){
-              res.redirect(referer)
-          } else {
-              res.send('ok')
-          }
-
-}
+  if (referer) {
+    res.redirect(referer);
+  } else {
+    res.send("ok");
+  }
+};
 
 //單一教練的課程
 const getemployeecenterID = async (req, res) => {
@@ -114,14 +111,13 @@ const getemployeeID = async (req, res) => {
 //單一課程
 const getcoursesID = async (req, res) => {
   try {
-    const newRow = {}
+    const newRow = {};
     const courseId = req.params.courseId;
     const [row] = await db.query(
       `SELECT * FROM courses WHERE courseId=${courseId}`
     );
     if (!row) return next("Can't find shop item", 404);
     res.json(row);
-
   } catch (err) {
     return next(new HttpError("Can't find shop item", 404));
   }
