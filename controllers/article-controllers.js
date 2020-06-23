@@ -112,18 +112,16 @@ const getArticleItemByIdDel = async (req, res, next) => {
   res.json(output);
 };
 
-
-
-
-
-const getArticleItemByIdUpdate = async (req, res) => {
-  console.log(req.body.data);
+const getArticleItemByIdUpdate = async (req, res, next) => {
+  console.log(req.body);
+  // console.log(req.params.articleId);
   const output = {
     success: false,
   };
 
-  // db.query(`UPDATE article SET ? WHERE  articleId =?`, [req.body]);
+  db.query(`UPDATE article SET ? WHERE  articleId =?`, [req.body, 70]);
 
+  res.json(output);
 };
 
 module.exports = {
@@ -136,6 +134,3 @@ module.exports = {
   getArticleItemByIdDel,
   getArticleItemByIdUpdate,
 };
-
-
-
