@@ -1,11 +1,11 @@
 const mysql = require("mysql2");
 
-const pool = mysql.createPool({
-  host: "localhost",
-  user: "root",
-  password: "T1st@localhost",
-  database: "wow-gym",
-});
+// const pool = mysql.createPool({
+//   host: "localhost",
+//   user: "root",
+//   password: "T1st@localhost",
+//   database: "wow-gym",
+// });
 
 // const pool = mysql.createPool({
 //   host: process.env.DB_HOST,
@@ -15,11 +15,11 @@ const pool = mysql.createPool({
 // });
 
 // production config
-// const pool = mysql.createPool({
-//   host: "eu-cdbr-west-03.cleardb.net",
-//   user: "b7aafd89bf2851",
-//   password: "633fdffc",
-//   database: "heroku_a97c1aaa6daa789",
-// });
+const pool = mysql.createPool({
+  host: "eu-cdbr-west-03.cleardb.net",
+  user: "b7aafd89bf2851",
+  password: "633fdffc",
+  database: "heroku_a97c1aaa6daa789",
+});
 
 module.exports = pool.promise();
