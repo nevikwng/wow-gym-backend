@@ -1,10 +1,11 @@
 const db = require("../mySql-connect");
+const moment = require('moment-timezone');
 const HttpError = require("../models/http-error");
 
 //取得文章資料
 const getArticleItems = async (req, res) => {
   const [rows] = await db.query(
-    "SELECT * FROM article  ORDER BY articleId DESC"
+    "SELECT * FROM article  INNER JOIN member ON article.memberId = member.memberId  ORDER BY articleId DESC"
   );
   res.json(rows);
 };
@@ -15,7 +16,7 @@ const getArticleItemById = async (req, res) => {
     const articleId = req.params.articleId;
     // console.log(articleId);
     const [row] = await db.query(
-      `SELECT * FROM article   WHERE article.articleId=${articleId}`
+      `SELECT * FROM article  INNER JOIN member ON article.memberId = member.memberId WHERE article.articleId=${articleId}`
     );
     if (!row) return next("Can't find article item", 404);
     res.json(row);
@@ -30,7 +31,7 @@ const getComments = async (req, res) => {
     const articleId = req.params.articleId;
     // console.log(articleId);
     const [row] = await db.query(
-      `SELECT * FROM  article INNER JOIN articlecomments ON articlecomments.articleId = article.articleId WHERE article.articleId=${articleId}`
+      `SELECT * FROM  (article INNER JOIN articlecomments ON articlecomments.articleId = article.articleId)INNER JOIN member ON article.memberId = member.memberId WHERE article.articleId=${articleId}`
     );
     if (!row) return next("Can't find article item", 404);
     res.json(row);
@@ -45,7 +46,7 @@ const getArticleItemByMemberId = async (req, res) => {
     const memberId = req.params.memberId;
     // console.log(articleId);
     const [row] = await db.query(
-      `SELECT * FROM article   WHERE article.memberId=${memberId}`
+      `SELECT * FROM article  WHERE article.memberId=${memberId}`
     );
     if (!row) return next("Can't find article item", 404);
     res.json(row);
@@ -60,7 +61,7 @@ const getArticleItemByArticleId = async (req, res) => {
     const articleId = req.params.articleId;
     // console.log(articleId);
     const [row] = await db.query(
-      `SELECT * FROM article   WHERE article.articleId=${articleId}`
+      `SELECT * FROM article  INNER JOIN member ON article.memberId = member.memberId WHERE article.articleId=${articleId}`
     );
     if (!row) return next("Can't find article item", 404);
     res.json(row);

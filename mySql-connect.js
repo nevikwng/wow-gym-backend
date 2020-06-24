@@ -4,7 +4,7 @@ const pool = mysql.createPool({
   host: "localhost",
   user: "root",
   password: "T1st@localhost",
-  database: "gym-project",
+  database: "wow-gym",
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
