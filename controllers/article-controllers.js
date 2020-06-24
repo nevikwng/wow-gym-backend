@@ -107,7 +107,7 @@ const getHotData = async (req, res) => {
 
 
 
-//傳送留言
+//傳送留言資料
 const postArticleAddComments = async (req, res) => {
   const output = {
     success: false,
