@@ -5,7 +5,7 @@ const HttpError = require("../models/http-error");
 //取得文章資料
 const getArticleItems = async (req, res) => {
   const [rows] = await db.query(
-    "SELECT * FROM article  INNER JOIN member ON article.memberId = member.memberId  ORDER BY articleId DESC"
+    "SELECT * FROM article  INNER JOIN user ON article.memberId = user.memberId  ORDER BY articleId DESC"
   );
   res.json(rows);
 };
@@ -16,7 +16,7 @@ const getArticleItemById = async (req, res) => {
     const articleId = req.params.articleId;
     // console.log(articleId);
     const [row] = await db.query(
-      `SELECT * FROM article  INNER JOIN member ON article.memberId = member.memberId WHERE article.articleId=${articleId}`
+      `SELECT * FROM article  INNER JOIN user ON article.memberId = user.memberId WHERE article.articleId=${articleId}`
     );
     if (!row) return next("Can't find article item", 404);
     res.json(row);
@@ -31,7 +31,7 @@ const getComments = async (req, res) => {
     const articleId = req.params.articleId;
     // console.log(articleId);
     const [row] = await db.query(
-      `SELECT * FROM  (article INNER JOIN articlecomments ON articlecomments.articleId = article.articleId)INNER JOIN member ON article.memberId = member.memberId WHERE article.articleId=${articleId}`
+      `SELECT * FROM  (article INNER JOIN articlecomments ON articlecomments.articleId = article.articleId)INNER JOIN user ON article.memberId = user.memberId WHERE article.articleId=${articleId}`
     );
     if (!row) return next("Can't find article item", 404);
     res.json(row);
@@ -61,7 +61,7 @@ const getArticleItemByArticleId = async (req, res) => {
     const articleId = req.params.articleId;
     // console.log(articleId);
     const [row] = await db.query(
-      `SELECT * FROM article  INNER JOIN member ON article.memberId = member.memberId WHERE article.articleId=${articleId}`
+      `SELECT * FROM article  INNER JOIN user ON article.memberId = user.memberId WHERE article.articleId=${articleId}`
     );
     if (!row) return next("Can't find article item", 404);
     res.json(row);
@@ -78,7 +78,7 @@ const getCommentsNumber = async (req, res) => {
     const articleId = req.params.articleId;
     // console.log(articleId);
     const [row] = await db.query(
-      `SELECT COUNT(1) FROM  (article INNER JOIN articlecomments ON articlecomments.articleId = article.articleId)INNER JOIN member ON article.memberId = member.memberId WHERE article.articleId=?`,[articleId]
+      `SELECT COUNT(1) FROM  (article INNER JOIN articlecomments ON articlecomments.articleId = article.articleId)INNER JOIN user ON article.memberId = user.memberId WHERE article.articleId=?`,[articleId]
     );
     if (!row) return next("Can't find article item", 404);
     res.json(row);
