@@ -158,6 +158,7 @@ const additem = (req, res) => {
         success: false
     }
 
+
     for (let i of req.body.cartItems) {
         i.total = req.body.Total
     }
@@ -218,5 +219,4 @@ module.exports = {
     ordres,
     OrderCompeleted,
     address,
-
 };
