@@ -8,7 +8,6 @@ const customerRoutes = require("./routes/customer-routes");
 const OrderRoutes = require("./routes/orders-routes");
 const memberRoutes = require("./routes/member-routes");
 const articleRoutes = require("./routes/article-routes");
-
 const app = express();
 const bodyParser = express.urlencoded({ extended: false });
 
@@ -36,6 +35,8 @@ app.use("/Orders", OrderRoutes);
 app.use("/api/user", memberRoutes);
 app.use("/api/articles", articleRoutes);
 
+// home route
+app.use((req, res, next) => res.send("Hi welcome to wow-gym API server 👻"));
 // Error handler
 app.use((req, res, next) => {
   throw new httpError("Route can't find!", 404);
