@@ -1,11 +1,12 @@
 const mysql = require("mysql2");
 
-// const pool = mysql.createPool({
-//   host: "localhost",
-//   user: "root",
-//   password: "T1st@localhost",
-//   database: "wow-gym",
-// });
+
+const pool = mysql.createPool({
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "gym-project",
+});
 
 // const pool = mysql.createPool({
 //   host: process.env.DB_HOST,

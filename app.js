@@ -8,7 +8,6 @@ const customerRoutes = require("./routes/customer-routes");
 const OrderRoutes = require("./routes/orders-routes");
 const memberRoutes = require("./routes/member-routes");
 const articleRoutes = require("./routes/article-routes");
-
 const app = express();
 const bodyParser = express.urlencoded({ extended: false });
 
