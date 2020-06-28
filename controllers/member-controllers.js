@@ -87,4 +87,26 @@ const InsertCheckOutPage = (req, res) => {
   // res.json(req.body);
 };
 
-module.exports = { getMember, getMemberId, InsertCheckOutPage };
+const UpdateUser = (req, res) => {
+  const output = {
+    success: false
+  }
+
+  for (let i of [req.body.data]) {
+    i.memberAddress = req.body.city + req.body.contury + req.body.data.memberAddress
+  }
+  const sql = `UPDATE user SET  ? WHERE memberId=?`;
+  db.query(sql, [req.body.data, req.body.currentUserSelect.memberId])
+    .then(([r]) => {
+      output.results = r;
+      if (r.affectedRows && r.insertId) {
+        output.success = true;
+      }
+      res.json(output);
+    })
+}
+
+
+
+
+module.exports = { getMember, getMemberId, InsertCheckOutPage, UpdateUser };
