@@ -71,6 +71,13 @@ const getMemberId = async (req, res, next) => {
 //   console.log(output);
 // };
 
+
+
+
+
+
+
+
 const InsertCheckOutPage = (req, res) => {
   // console.log(req.body.data);
   const output = {
