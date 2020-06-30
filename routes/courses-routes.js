@@ -25,3 +25,5 @@ router.delete("/bookingData/:courseBookingId", cancelBooking)
 
 
 module.exports = router;
+
+

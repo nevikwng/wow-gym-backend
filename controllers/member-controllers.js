@@ -116,4 +116,6 @@ const UpdateUser = (req, res) => {
 
 
 
+
+
 module.exports = { getMember, getMemberId, InsertCheckOutPage, UpdateUser };
